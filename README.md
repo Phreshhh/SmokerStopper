@@ -2,7 +2,7 @@
 
 *I made it myself, so not too rich in functions/futures, but i thinked maybe can help other(s) too if i publish it.*
 
-This app help you tracking your smoking habits and reduce the dose grandually and prepare you to the "freedom day" (quitting).
+This app help you tracking your smoking habits and reduce the dose greatly and prepare you to the "freedom day" (quitting).
 How?
 The app is a game pack in the game also.
 
