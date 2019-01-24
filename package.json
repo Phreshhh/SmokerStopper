@@ -1,0 +1,41 @@
+{
+  "name": "smokerstopper",
+  "version": "1.0.0",
+  "productName": "SmokerStopper",
+  "description": "Tracking your smoking time habit and help to quit.",
+  "author": "Phresh",
+  "copyright": "© 2019, Krisztián Kis - Phresh-IT",
+  "homepage": "https://phresh-it.hu/apps/smokerstopper/",
+  "repository": "https://github.com/Phreshhh/SmokerStopper/",
+  "license": "MIT",
+  "keywords": [
+    "Phresh",
+    "Electron",
+    "w3",
+    "manage",
+    "reminder",
+    "timetrack",
+    "game"
+  ],
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack-win32": "electron-packager . SmokerStopper --platform=win32 --arch=x32 --asar --out dist --overwrite --icon=build/icons/smokerstopper.ico",
+    "pack-win": "electron-packager . SmokerStopper --platform=win32 --arch=x64 --asar --out dist --overwrite --icon=build/icons/smokerstopper.ico",
+    "pack-lin": "electron-packager . SmokerStopper --platform=linux --arch=x64 --asar --out dist --overwrite ---icon=build/icons/smokerstopper.png --prune=true",
+    "pack-mac": "electron-packager . SmokerStopper --platform=darwin --arch=x64 --asar --out dist  --overwrite --icon=build/icons/smokerstopper.icns --prune=true",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "dependencies": {
+    "fs-extra": "7.0.1",
+    "auto-launch": "5.0.5",
+    "electron-store": "2.0.0",
+    "electron-window-state": "5.0.0",
+    "nedb": "1.8.0"
+  },
+  "devDependencies": {
+    "electron": "4.0.0",
+    "electron-packager": "13.0.1"
+  }
+}

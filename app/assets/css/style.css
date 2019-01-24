@@ -1,0 +1,50 @@
+:root {
+  --appcolor: #b8e69f;
+  --appbgcolor: rgb(44, 44, 44);
+  --appbgcolor-secondary: rgb(68, 68, 68);
+}
+
+body,html {font-size:11px;background-color:rgb(94, 94, 94);color:#fff;}
+hr {margin:2px;padding:0;}
+.fa {background-color:transparent;width:20px;text-align:center;}
+
+.hidden {display:none;}
+.clickable {cursor:pointer;}
+.clickable:hover {color:var(--appcolor);}
+
+#mainNav,
+#mainNav .w3-dropdown-content {background-color:var(--appbgcolor);color:rgb(184, 184, 184);}
+#mainNav .w3-button,
+#mainNav .w3-bar-item.w3-button {padding:4px 8px;}
+
+.strongly-check {display:none;}
+#dateTimeHolder:hover {color:rgb(184, 184, 184)!important}
+
+header, footer {background-color:var(--appbgcolor);color:rgb(184, 184, 184);}
+
+#mainNav {font-size:10px;height:23px;}
+#appContent {margin-top:23px;}
+.w3-modal-content {background:transparent;}
+
+.button-app {background-color:var(--appbgcolor-secondary) !important;color:#fff !important;}
+.button-app:hover,
+.w3-button-app:hover {background-color:var(--appcolor) !important;}
+.w3-button-transparent:hover {background-color:transparent !important;}
+
+.maininfos {padding:16px 8px;}
+#points-main {background-color:var(--appbgcolor-secondary);}
+
+.bar-firstitem {border-top-left-radius:5px;border-bottom-left-radius:5px;}
+.bar-lastitem {border-top-right-radius:5px;border-bottom-right-radius:5px;}
+
+.active {background-color:var(--appcolor)!important;color:#000!important;}
+.danger-state {background-color:red;color:#000;}
+.warning-state {background-color:orange;color:#000;}
+.success-state {background-color:rgb(17, 180, 17);color:#000;}
+
+canvas {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  background-color:white;
+}

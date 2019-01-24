@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SmokerStopper</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../build/icons/SmokerStopper-icon.png.ico" />
+    <link rel="stylesheet" href="assets/font-awesome-4.7/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="assets/css/w3.css" />
+    <link rel="stylesheet" href="assets/css/chrome.custom.scrollbar.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+
+    <!-- Navbar -->
+    <div class="w3-top w3-cear">
+      <div id="mainNav" class="w3-bar w3-theme-d2 w3-left-align">
+        <a href="#" class="w3-bar-item w3-right w3-button w3-button-transparent">&nbsp;</a>
+        <div class="w3-dropdown-hover w3-dropdown-app-hover">
+          <button class="w3-button w3-button-app">Smoking settings <i class="fa fa-caret-down"></i></button>
+          <div class="w3-dropdown-content w3-animate-opacity w3-card-4 w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="cigaretteStronglyChanged('strong');">Strong <i id="strongly-strong-check" class="fa fa-check w3-right strongly-check"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="cigaretteStronglyChanged('normal');">Normal <i id="strongly-normal-check" class="fa fa-check w3-right strongly-check"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="cigaretteStronglyChanged('light');">Light <i id="strongly-light-check" class="fa fa-check w3-right strongly-check"></i></a>
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="cigaretteStronglyChanged('extralight');">Extralight/E-Cigatette <i id="strongly-extralight-check" class="fa fa-check w3-right strongly-check"></i></a>
+            <hr />
+            <label class="w3-bar-item w3-button w3-button-app" for="target-breaktime">
+              Target break (minutes)
+            </label>
+            <input type="number" id="target-breaktime" class="w3-bar-item w3-input" min="30" value="60" onblur="targetBreakTimeChanged(this.value);" />
+          </div>
+        </div>
+        <div class="w3-dropdown-hover w3-dropdown-app-hover">
+          <button class="w3-button w3-button-app">App settings <i class="fa fa-caret-down"></i></button>
+          <div class="w3-dropdown-content w3-animate-opacity w3-card-4 w3-bar-block">
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="autostartApp();">Auto start <i id="autostartcheck" class="fa fa-check"></i></a>
+            <a href="index.html" class="w3-bar-item w3-button w3-button-app">Reload app</a>
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="resetProfileData();">Reset profile </a>
+            <a href="#" class="w3-bar-item w3-button w3-button-app" onclick="resetGamesData();">Reset games</a>
+          </div>
+        </div>
+        <div class="w3-dropdown-hover w3-dropdown-app-hover">
+          <button class="w3-button w3-button-app">About <i class="fa fa-caret-down"></i></button>
+          <div class="w3-dropdown-content w3-animate-opacity w3-card-4 w3-bar-block">
+            <a id="SmokerStopper" href="#" class="w3-bar-item w3-button w3-button-app" onclick="openExternallink('app');">SmokerStopper</a>
+            <a id="phresh-it" href="#" class="w3-bar-item w3-button w3-button-app" onclick="openExternallink('phreshit');">Phresh-IT</a>
+            <a id="electronjs" href="#" class="w3-bar-item w3-button w3-button-app" onclick="openExternallink('electron');">Electron</a>
+          </div>
+        </div>
+        <a id="dateTimeHolder" href="#" class="w3-bar-item w3-right w3-button w3-button-transparent" style="cursor:default;">&nbsp;</a>
+      </div>
+    </div>
+
+    <div id="appContent">
+      
+      <div id="points-main" class="w3-row w3-padding w3-text-white">
+
+        <div class="w3-col s12 m12">
+          <div class="w3-col s4 m4">
+            <p>Current setup <i class="fa fa-chevron-right"></i> </p>
+          </div>
+          <div class="w3-col s4 m4">
+            <p>Cigarette type: <label id="strongly-setup-label"></label></p>
+          </div>
+          <div class="w3-col s4 m4">
+            <p>Target breaktime: <label id="breaktime-setup-label"></label> min</p>
+          </div>
+        </div>
+        
+        <div class="w3-col s6 m6">
+          <h6>Cigarettes</h6>
+          <p>Today: <label id="today-stats-label"></label> <i id="today-stats-icon" class="fa fa-lg fa-thumbs-up"></i></p>
+          <p>In month: <label id="month-stats-label"></label></p>
+          <p>Total: <label id="total-stats-label"></label></p>
+        </div>
+
+        <div class="w3-col s6 m6">
+          <h5>Profile <i class="fa fa-info w3-text-blue clickable" onclick="showModal('pointSystemModal');"></i><a class="w3-right" href="assets/flashgames/index.html" target="_blank">Rewards</a></h5>
+          <p>Level: <label id="level-profile-label"></label> / 50</p>
+          <p>XP: <label id="xp-profile-label"></label><label id="xpnext-profile-label"></label></p>
+          <div class="w3-grey w3-tiny w3-center w3-round">
+            <div id="xp-profile-bar" class="w3-green w3-round" style="height:15px;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div id="states-main" class="w3-row w3-card w3-center maininfos danger-state">
+        <h2 id="breaktime-counter"></h2>
+      </div>
+
+      <div class="w3-row w3-center w3-padding">
+
+        <div class="w3-row w3-bar">
+          <p>Smoked :</p>
+          <button class="w3-bar-item w3-button button-app bar-firstitem" onclick="setSmoked('complete');">Complete</button>
+          <button class="w3-bar-item w3-button button-app" onclick="setSmoked('threequarter');">Threequarter</button>
+          <button class="w3-bar-item w3-button button-app" onclick="setSmoked('half');">Half</button>
+          <button class="w3-bar-item w3-button button-app bar-lastitem" onclick="setSmoked('quarter');">Quarter</button>
+        </div>
+
+      </div>
+
+      <div class="w3-panel">
+        <canvas id="todayChart"></canvas>
+        <br />
+        <canvas id="monthChart"></canvas>
+        <br />
+        <canvas id="totalChart"></canvas>
+      </div>
+
+    </div>
+
+    <!-- Modals -->
+
+    <div id="pointSystemModal" class="w3-modal">
+      <div class="w3-modal-content">
+        <header class="w3-container">
+          <span class="w3-button w3-button-app w3-display-topright" onclick="document.getElementById('pointSystemModal').style.display='none';">&times;</span>
+          <h2>Point system</h2>
+        </header>
+        <div class="w3-container w3-dark-gray">
+          <table class="w3-table">
+            <thead>
+              <tr>
+                <th>Cigarette type</th>
+                <th>Cigarette dose</th>
+                <th>Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background-color:rgb(238, 51, 51);">
+                <td>Strong</td>
+                <td>Complete</td>
+                <td>5</td>
+              </tr>
+              <tr style="background-color:rgb(240, 84, 84);">
+                <td>Strong</td>
+                <td>Threequarter</td>
+                <td>10</td>
+              </tr>
+              <tr style="background-color:rgb(228, 95, 95);">
+                <td>Strong</td>
+                <td>Half</td>
+                <td>15</td>
+              </tr>
+              <tr style="background-color:rgb(209, 121, 101);">
+                <td>Strong</td>
+                <td>Quarter</td>
+                <td>20</td>
+              </tr>
+              <tr style="background-color:rgb(235, 90, 35);">
+                <td>Normal</td>
+                <td>Complete</td>
+                <td>25</td>
+              </tr>
+              <tr style="background-color:rgb(235, 112, 35);">
+                <td>Normal</td>
+                <td>Threequarter</td>
+                <td>30</td>
+              </tr>
+              <tr style="background-color:rgb(235, 141, 35);">
+                <td>Normal</td>
+                <td>Half</td>
+                <td>35</td>
+              </tr>
+              <tr style="background-color:rgb(235, 164, 35);">
+                <td>Normal</td>
+                <td>Quarter</td>
+                <td>40</td>
+              </tr>
+              <tr style="background-color:rgb(235, 192, 35);">
+                <td>Light</td>
+                <td>Complete</td>
+                <td>45</td>
+              </tr>
+              <tr style="background-color:rgb(235, 215, 35);">
+                <td>Light</td>
+                <td>Threequarter</td>
+                <td>50</td>
+              </tr>
+              <tr style="background-color:rgb(224, 220, 53);">
+                <td>Light</td>
+                <td>Half</td>
+                <td>55</td>
+              </tr>
+              <tr style="background-color:rgb(167, 235, 35);">
+                <td>Light</td>
+                <td>Quarter</td>
+                <td>60</td>
+              </tr>
+              <tr style="background-color:rgb(139, 208, 64);">
+                <td>Extralight / E-Cigarette</td>
+                <td>Complete</td>
+                <td>70</td>
+              </tr>
+              <tr style="background-color:rgb(92, 195, 79);">
+                <td>Extralight / E-Cigarette</td>
+                <td>Threequarter</td>
+                <td>80</td>
+              </tr>
+              <tr style="background-color:rgb(40, 197, 54);">
+                <td>Extralight / E-Cigarette</td>
+                <td>Half</td>
+                <td>90</td>
+              </tr>
+              <tr style="background-color:rgb(18, 183, 32);">
+                <td>Extralight / E-Cigarette</td>
+                <td>Quarter</td>
+                <td>100</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <footer class="w3-container">
+          <h3>Time modifiers</h3>
+          <p>
+            You get 2 points for every minute from your setted breaktime, if you reach it. If you don't reach you get 0 point of this bonus.
+          </p>
+          <p class="w3-text-red">
+            If you smoke before you earn the target time, you lose 1 point for every minute.
+          </p>
+          <p class="w3-text-green">
+            If you smoke after you earn the target time, you get 1 point for every minute.
+          </p>
+          <br />
+        </footer>
+      </div>
+    </div>
+
+    <div id="levelUpModal" class="w3-modal">
+      <div class="w3-modal-content w3-animate-zoom">
+        <header class="w3-container">
+          <span class="w3-button w3-button-app w3-display-topright" onclick="document.getElementById('levelUpModal').style.display='none';">&times;</span>
+          <h2 class="w3-center">You reach a new level</h2>
+        </header>
+        <div class="w3-container w3-dark-gray">
+          <p>New game unlocked!</p>
+          <img src="assets/img/cup.png" class="w3-image" />
+        </div>
+        <footer class="w3-container">
+
+        </footer>
+      </div>
+    </div>
+
+    <script src="assets/js/w3.js"></script>
+    <script>
+
+      let i = 0;
+      let lastSmokeTime = 0;
+
+      let autostartcheck = document.getElementById('autostartcheck');
+      
+      let statsToday = document.getElementById('today-stats-label');
+      let statsTodayIcon = document.getElementById('today-stats-icon');
+      let statsMonth = document.getElementById('month-stats-label');
+      let statsYear = document.getElementById('year-stats-label');
+      let statsTotal = document.getElementById('total-stats-label');
+
+      let profileLevel = document.getElementById('level-profile-label');
+      let profileXP = document.getElementById('xp-profile-label');
+      let profileXPNext = document.getElementById('xpnext-profile-label');
+      let profileXPBar = document.getElementById('xp-profile-bar');
+
+      let statesMain = document.getElementById('states-main');
+      
+      const os = process.platform;
+      const path = require('path');
+      const electron = require('electron');
+      const {remote} = require('electron');
+      const app = electron.app || electron.remote.app;
+      const appPath = app.getAppPath();
+      const userData = app.getPath('userData');
+
+      const currentWindow = remote.getCurrentWindow();
+
+      const fse = require('fs-extra');
+
+      let AutoLaunch = require('auto-launch');
+      
+      const Store = require('electron-store');
+      const store = new Store();
+
+      const Datastore = require('nedb');
+
+      function showModal(modalID) {
+        w3.addStyle('#' + modalID, 'display', 'block');
+      }
+
+      let SmokerStopperAutoLauncher = new AutoLaunch({
+        name: 'SmokerStopper',
+        path: appPath
+      });
+      if (store.has('settings.autolaunch')) {
+        let autolaunching = store.get('settings.autolaunch');
+        if (!autolaunching) {
+          autostartcheck.style.display = 'none';
+        }
+      } else {
+        store.set('settings.autolaunch', false);
+        autostartcheck.style.display = 'none';
+      }
+
+      function autostartApp() {
+
+        let autolaunching = store.get('settings.autolaunch');
+        if (autolaunching) {
+          store.set('settings.autolaunch', false);
+          SmokerStopperAutoLauncher.disable();
+          autostartcheck.style.display = 'none';
+        } else {
+          store.set('settings.autolaunch', true);
+          SmokerStopperAutoLauncher.enable();
+          autostartcheck.style.display = 'inline-block';
+
+          SmokerStopperAutoLauncher.isEnabled()
+          .then(function(isEnabled) {
+            if(isEnabled) {
+              return;
+            }
+            SmokerStopperAutoLauncher.enable();
+          })
+          .catch(function(err) {
+            console.log(err);
+          });
+        }
+
+      }
+
+      setInterval( () => {
+        /* Clock */
+        let datetimeTotitle = dateTimeFormat(new Date());
+        document.getElementById('dateTimeHolder').innerHTML = datetimeTotitle;
+        /* Counter */
+        updateBreakTimeCounter(formatBreakTime(lastSmokeTime, Date.now()));
+      }, 1000);
+
+      function getDate() {
+        let dDate = new Date();
+
+        let dYears = dDate.getFullYear();
+        let dMonths = dDate.getMonth() + 1;
+        let dDays = dDate.getDate();
+        
+        return [dYears,dMonths,dDays];
+      }
+
+      function getDateTime() {
+        let dDate = new Date();
+
+        let dYears = dDate.getFullYear();
+        let dMonths = dDate.getMonth() + 1;
+        let dDays = dDate.getDate();
+
+        let dHours = dDate.getHours();
+        let dMinutes = dDate.getMinutes();
+        let dSeconds = dDate.getSeconds();
+        
+        return [dYears,dMonths,dDays,dHours,dMinutes,dSeconds];
+      }
+
+      function dateTimeFormat(datetime) {
+        let newDatetime = datetime.toLocaleString();
+        newDatetime = newDatetime.replace('. ', '.');
+        newDatetime = newDatetime.replace('. ', '.');
+        newDatetime = newDatetime.replace('. ', ' - ');
+        return newDatetime;
+      }
+
+      function cigaretteStronglyChanged(strongly) {
+        
+        store.set('settings.cigarette-strongly', strongly);
+
+        let selectedStronglyLabel = document.getElementById('strongly-setup-label');
+        selectedStronglyLabel.innerHTML = strongly;
+        selectedStronglyLabel.style.textTransform = 'capitalize';
+
+        let  stronglychecks = document.getElementsByClassName('strongly-check');
+        for (i = 0; i < stronglychecks.length; i++) {
+
+          if (stronglychecks[i].id === 'strongly-' + strongly + '-check') {
+            stronglychecks[i].style.display = 'inline-block';
+          } else {
+            stronglychecks[i].style.display = 'none';
+          }
+
+        }
+      }
+      if (!store.has('settings.cigarette-strongly')) {
+        cigaretteStronglyChanged('normal');
+      } else {
+        cigaretteStronglyChanged( store.get('settings.cigarette-strongly') );
+      }
+
+      function targetBreakTimeChanged(time) {
+        
+        time = parseInt(time);
+        if (time < 30) {
+          time = 30;
+        }
+
+        store.set('settings.cigarette-breaktime', time);
+
+        let selectedBreakTimeLabel = document.getElementById('breaktime-setup-label');
+        selectedBreakTimeLabel.innerHTML = time;
+
+        let selectedBreakTimeInput = document.getElementById('target-breaktime');
+        selectedBreakTimeInput.value = time;
+
+      }
+      if (!store.has('settings.cigarette-breaktime')) {
+        targetBreakTimeChanged(60);
+      } else {
+        targetBreakTimeChanged( store.get('settings.cigarette-breaktime') );
+      }
+
+      function setSmoked(dose) {
+        statisticsJS.updateStatistics(dose, formatBreakTime(lastSmokeTime, Date.now()))
+      }
+
+      function formatBreakTime(date_from, date_to) {
+
+        let delta = Math.abs(date_from - date_to) / 1000;
+
+        let years = Math.floor(delta / 31536000);
+        delta -= years * 31536000;
+
+        let days = Math.floor(delta / 86400);
+        delta -= days * 86400;
+
+        let hoursfromdays = days * 24;
+        let hoursfromyears = years * 8760;
+
+        let hours = Math.floor(delta / 3600) % 24;
+        delta -= hours * 3600;
+
+        hours += hoursfromyears;
+        hours += hoursfromdays;
+
+        let minutes = Math.floor(delta / 60) % 60;
+        delta -= minutes * 60;
+
+        let seconds = Math.floor(delta % 60);
+
+        let breakTime = '';
+
+        breakTime = ('0' + hours).slice(-2) + ":" + ('0' + minutes).slice(-2) + ":" + ('0' + seconds).slice(-2);
+
+        return breakTime;
+      }
+      
+      function openExternallink(gotohomepage) {
+        switch (gotohomepage) {
+          case 'app':
+            require('electron').shell.openExternal('http://phresh-it.hu/apps/smokerstopper/');
+            break;
+          case 'phreshit':
+            require('electron').shell.openExternal('http://phresh-it.hu/');
+            break;
+          case 'electron':
+            require('electron').shell.openExternal('https://electronjs.org/');
+            break;
+
+          default:
+            require('electron').shell.openExternal(gotohomepage);
+            break;
+        }
+      }
+      
+      let statisticsDB = new Datastore({ filename: path.join(userData, 'statistics.db'), autoload: true });
+      let statisticsJS = require(__dirname + '/assets/js/statistics.js');
+
+      function re_startBreaktimeCounter() {
+        statisticsJS.getLastSmokeTime(lastSmokeTime)
+        .then( (gettedLastSmokeTime) => {
+          lastSmokeTime = gettedLastSmokeTime;
+        });
+      }
+      re_startBreaktimeCounter();
+
+      function updateBreakTimeCounter(currentBreakTime) {
+        document.getElementById('breaktime-counter').innerHTML = currentBreakTime;
+        currentBreakTimeParts = currentBreakTime.split(':');
+        currentBreakTimeHours = parseInt(currentBreakTimeParts[0]);
+        currentBreakTimeMinutes = parseInt(currentBreakTimeParts[1]);
+
+        let currentBreakTimeInMinutes = (currentBreakTimeHours * 60) + currentBreakTimeMinutes;
+        let currentBreakTimeTarget = parseInt(store.get('settings.cigarette-breaktime'));
+
+        if (currentBreakTimeInMinutes > currentBreakTimeTarget) {
+
+          statesMain.classList.remove('danger-state', 'warning-state');
+          statesMain.classList.add('success-state');
+
+        } else {
+
+          if (currentBreakTimeInMinutes === currentBreakTimeTarget) {
+
+            statesMain.classList.remove('success-state', 'danger-state');
+            statesMain.classList.add('warning-state');
+
+          } else {
+
+            statesMain.classList.remove('success-state', 'warning-state');
+            statesMain.classList.add('danger-state');
+
+          }
+
+        }
+
+      }
+     
+      /* profile */
+
+      if (!store.has('profile.level')) {
+        store.set('profile.level', 1);
+        store.set('profile.xp', 0);
+      }
+
+      function re_fillProfileData() {
+
+        let profileLevelValue = store.get('profile.level');
+        let profileXPValue = store.get('profile.xp');
+
+        if (profileLevelValue === 50) {
+          profileLevel.innerHTML = '50';
+          profileXP.innerHTML = '0';
+          profileXPNext.innerHTML = ' / 0';
+          profileXPBar.innerHTML = '';
+          profileXPBar.style.width = '100%';
+        } else {
+
+          let profileNextLevelValue = profileLevelValue + 1;
+
+          statisticsJS.getXpForLevel(profileNextLevelValue)
+          .then( (profileXpForNextLevelValue) => {
+            
+            profileLevel.innerHTML = profileLevelValue;
+            profileXP.innerHTML = profileXPValue;
+            profileXPNext.innerHTML = ' / ' + profileXpForNextLevelValue;
+            
+            let nextLevelPercentValue = Math.floor( (profileXPValue * 100) / profileXpForNextLevelValue );
+            if (nextLevelPercentValue > 0) {
+              profileXPBar.innerHTML = nextLevelPercentValue + '%';
+            }
+            profileXPBar.style.width = nextLevelPercentValue + '%';
+
+          });
+
+        }
+
+      }
+      re_fillProfileData();
+
+      function resetProfileData() {
+        store.set('profile.level', 1);
+        store.set('profile.xp', 0);
+        setTimeout( () => {
+          re_fillProfileData();
+        }, 1000);
+      }
+     
+      /* games */
+
+      function resetGamesData() {
+
+        /* Game saves location is */
+        /* C:\Users\{user}\AppData\Roaming\SmokerStopper\Pepper Data\Shockwave Flash\WritableRoot\#SharedObjects */
+        /* but the saves marked with hash ids, so i can't discern witch file is witch game save */
+        
+        fse.removeSync(
+          path.join(
+            userData,
+            'Pepper Data',
+            'Shockwave Flash',
+            'WritableRoot',
+            '#SharedObjects'
+          )
+
+        );
+
+        setTimeout( () => {
+          document.location.href = 'index.html';
+        }, 1000);
+
+      }
+
+    </script>
+
+    <script src="assets/js/Chart.bundle.min.js"></script>
+    <script>
+
+      function re_createTodayChart() {
+
+        statisticsJS.getTodayChartData().then( (todayBreakTimesArr) => {
+
+          let todayCigarettesLabels = [];
+
+          for (i=1;i<=todayBreakTimesArr.length;i++) {
+            todayCigarettesLabels.push(i);
+          }
+
+          let ctx_today = document.getElementById("todayChart").getContext('2d');
+          let todayChart = new Chart(ctx_today, {
+            type: 'line',
+            data: {
+              labels: todayCigarettesLabels,
+              datasets: [{
+                label: '# Today break time minutes',
+                data: todayBreakTimesArr
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero:true
+                  }
+                }]
+              }
+            }
+          });
+
+        });
+
+      }
+      re_createTodayChart();
+
+      function re_createMonthChart() {
+
+        statisticsJS.getMonthChartData().then( (monthChartDataObj) => {
+
+          let monthDaysArr = monthChartDataObj.monthData;
+          let cigarettePerDayArr = monthChartDataObj.cigaretteData;
+          
+          let ctx_month = document.getElementById("monthChart").getContext('2d');
+          let monthChart = new Chart(ctx_month, {
+            type: 'line',
+            data: {
+              labels: monthDaysArr,
+              datasets: [{
+                label: '# Cigarette per day in month',
+                data: cigarettePerDayArr
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero:true
+                  }
+                }]
+              }
+            }
+          });
+
+        });
+
+      }
+      re_createMonthChart();
+
+      function re_createTotalChart() {
+
+        statisticsJS.getTotalChartData().then( (totalChartDataObj) => {
+
+          let monthDatesArr = totalChartDataObj.monthDateData;
+          let cigarettePerMonthArr = totalChartDataObj.cigaretteData;
+          
+          let ctx_total = document.getElementById("totalChart").getContext('2d');
+          let totalChart = new Chart(ctx_total, {
+            type: 'line',
+            data: {
+              labels: monthDatesArr,
+              datasets: [{
+                label: '# Cigarettes per month',
+                data: cigarettePerMonthArr
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero:true
+                  }
+                }]
+              }
+            }
+          });
+
+        });
+
+      }
+      re_createTotalChart();
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="paper.min.css">
+    <title>Flash game rewards</title>
+  </head>
+  <body>
+    <div class="paper container">
+      <h1 style="margin:0 auto;padding:0;text-align:center;">Flash game rewards</h1>
+      <ul style="list-style-type: circle;">
+        <script>
+
+          const Store = require('electron-store');
+          const store = new Store();
+
+          let profileLevel = store.get('profile.level');
+          
+          let gamesByLevelsJS = require('../js/games.by.levels.js');
+
+          gamesByLevelsJS.getGamesByLevel(profileLevel)
+          .then( (gameUnlockedArr) => {
+
+            for (let i = 0; i < profileLevel; i++) {
+              if (gameUnlockedArr[i].name !== undefined) {
+                document.write('<li> Level ' + gameUnlockedArr[i].level + ': <a href="games/' + gameUnlockedArr[i].file + '.html" target="_blank"> ' + gameUnlockedArr[i].name + ' (' + gameUnlockedArr[i].type + ') </a> </li>');
+              }
+            }
+            
+          });
+
+        </script>
+      </ul>
+    </div>
+  </body>
+</html>
