@@ -21,7 +21,7 @@ When you can hold the dose with light, start lower the dose. Use the timer to pu
 
 Try lower your dose to minimum 8-10 or better 5-6 light cigarette per day while you reach level 50.
 
-The lowered dose makes easier for you the finaly free form the smoking. The day when you left over the smoking is the freedom day.
+The lowered dose makes easier for you the finaly free from the smoking. The day when you left over the smoking is the freedom day.
 
 If you fall back more the 1-2 cigarette per day, you can restart the procedure with your lower dose. Use the "Reset profile" menu.
 
