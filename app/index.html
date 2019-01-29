@@ -270,7 +270,7 @@
       const electron = require('electron');
       const {remote} = require('electron');
       const app = electron.app || electron.remote.app;
-      const appPath = app.getAppPath('exe');
+      const appPath = app.getPath('exe');
       const userData = app.getPath('userData');
 
       const currentWindow = remote.getCurrentWindow();
