@@ -35,7 +35,7 @@
     "nedb": "1.8.0"
   },
   "devDependencies": {
-    "electron": "4.0.0",
+    "electron": "9.1.0",
     "electron-packager": "13.0.1"
   }
 }
